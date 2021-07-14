@@ -17,6 +17,7 @@ public class CompanyTitleResponse {
 
     @Builder
     public CompanyTitleResponse(Company company) {
+        this.companyCategory = company.getCompanyCategory();
         this.companyId = company.getId();
         this.companyName = company.getName();
         this.introduce = company.getIntroduce();

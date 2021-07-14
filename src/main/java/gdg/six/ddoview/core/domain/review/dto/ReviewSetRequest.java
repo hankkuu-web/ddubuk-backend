@@ -17,11 +17,11 @@ public class ReviewSetRequest {
     @NotNull
     private long memberId;
 
-    private List<ReviewQuestRequest> reviewQuestRequests;
+    private List<ReviewQuestionRequest> reviewQuestRequests;
 
     @Getter
-    public static class ReviewQuestRequest {
-        private long questId;
+    public static class ReviewQuestionRequest {
+        private long questionId;
         private String answer;
     }
 

@@ -54,4 +54,11 @@ public class Review extends BaseEntity {
     public void updateReviewQuestion(List<ReviewQuestion> reviewQuestionList) {
         this.reviewQuestions = new HashSet<>(reviewQuestionList);
     }
+
+    public Reply findReply(long parentReplyId) {
+        return this.replies.stream()
+                .filter(r -> r.getId() == parentReplyId)
+                .findFirst()
+                .orElseThrow();
+    }
 }

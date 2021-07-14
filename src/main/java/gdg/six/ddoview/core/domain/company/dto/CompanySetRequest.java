@@ -19,6 +19,9 @@ public class CompanySetRequest {
     private String profilePhotoUrl;
 
     @NotBlank
+    private String companyCategory;
+
+    @NotBlank
     private String introduce;
 
     @NotBlank

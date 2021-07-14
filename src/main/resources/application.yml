@@ -5,17 +5,17 @@ spring:
   profiles:
     active: development
 
-#  logging:
-#    level:
-#      org:
-#        springframework: debug
-#        hibernate:
-#          SQL: debug
-#          type:
-#            descriptor:
-#              sql:
-#                BasicBinder: trace
-#
+  logging:
+    level:
+      org:
+        springframework: debug
+        hibernate:
+          SQL: debug
+          type:
+            descriptor:
+              sql:
+                BasicBinder: trace
+
 
   h2:
     console:

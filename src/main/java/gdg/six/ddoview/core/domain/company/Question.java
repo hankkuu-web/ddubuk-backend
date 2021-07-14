@@ -22,6 +22,8 @@ public class Question extends BaseEntity {
 
     private String content;
 
+    private boolean isActive = false;
+
 //    @OneToMany(mappedBy = "question")
 //    private Set<ReviewQuestion> reviewQuestions = new HashSet<>();
 
@@ -30,8 +32,13 @@ public class Question extends BaseEntity {
     private Company company;
 
     @Builder
-    public Question(String content, Company company) {
+    public Question(String content, Company company, boolean isActive) {
         this.content = content;
         this.company = company;
+        this.isActive = isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

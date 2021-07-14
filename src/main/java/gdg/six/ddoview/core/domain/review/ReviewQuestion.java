@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@Table(name = "REVIEW_QUESTION")
 public class ReviewQuestion extends BaseEntity {
 
     @Id

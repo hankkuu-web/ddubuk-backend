@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -23,6 +24,8 @@ public class Company extends BaseEntity {
     private long id;
 
     private String name;
+
+    private String companyCategory;
 
     private String profilePhotoUrl;
 
@@ -42,16 +45,19 @@ public class Company extends BaseEntity {
     }
 
     public void updateTemplate(CompanySetRequest request) {
+        this.companyCategory = request.getCompanyCategory();
         this.description = request.getDescription();
         this.introduce = request.getIntroduce();
         this.serviceDescription = request.getServiceDescription();
 
         if(request.getQuestions().size() > 0) {
-            this.questions.clear();
+            this.questions.forEach(q -> q.setActive(false));
+
             for(CompanySetRequest.QuestionRequest question : request.getQuestions()) {
                 Question q = Question.builder()
                         .content(question.getContent())
                         .company(this)
+                        .isActive(true)
                         .build();
                 this.addQuestion(q);
             }

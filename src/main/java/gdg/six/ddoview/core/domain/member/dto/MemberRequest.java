@@ -48,8 +48,8 @@ public class MemberRequest {
 
         public Company toCompany() {
             return Company.builder()
-                    .name(company.companyName)
-                    .profilePhotoUrl(company.profilePhotoUrl)
+                    .name(this.company.companyName)
+                    .profilePhotoUrl(this.company.profilePhotoUrl)
                     .build();
         }
     }

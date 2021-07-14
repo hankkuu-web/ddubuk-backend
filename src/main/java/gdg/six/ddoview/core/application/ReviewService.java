@@ -62,7 +62,7 @@ public class ReviewService {
         List<ReviewQuestion> list = request.getReviewQuestRequests()
                 .stream()
                 .map(x -> {
-                    Question question = questionRepository.getById(x.getQuestId());
+                    Question question = questionRepository.getById(x.getQuestionId());
                     return ReviewQuestion.builder()
                                     .answer(x.getAnswer())
                                     .company(company)
@@ -84,15 +84,24 @@ public class ReviewService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void createReply(ReplySetRequest request) {
+        Member member = memberRepository.findById(request.getMemberId()).orElseThrow();
+
         Review review = reviewRepository.findById(request.getReviewId())
                 .orElseThrow();
 
-        Reply reply = Reply.builder()
-                .content(request.getContent())
-                .review(review)
-                .build();
+        if(request.addChildReply()) {
+            Reply parentReply = review.findReply(request.getParentReplyId());
+            Reply childReply = parentReply.addChildReply(request.getContent(), member);
+            review.addReply(childReply);
+        } else {
+            review.addReply(Reply.builder()
+                    .content(request.getContent())
+                    .review(review)
+                    .member(member)
+                    .build());
+        }
 
-        review.addReply(reply);
+        reviewRepository.save(review);
     }
 
 }
