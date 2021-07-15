@@ -27,7 +27,6 @@ public class MemberRequest {
         @Email
         private String email;
 
-        @NotNull
         private CompanyRequest company;
 
         @Getter

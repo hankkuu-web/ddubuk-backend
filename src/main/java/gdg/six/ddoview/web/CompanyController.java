@@ -27,6 +27,12 @@ public class CompanyController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/search")
+    public List<CompanyTitleResponse> searchCompany(@RequestParam String companyName) {
+        return companyService.search(companyName);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public List<CompanyTitleResponse> getCompanyTemplate() {
         return companyService.getTemplateAll();

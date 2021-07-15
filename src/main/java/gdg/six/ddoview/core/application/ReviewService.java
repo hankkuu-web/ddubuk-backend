@@ -7,6 +7,7 @@ import gdg.six.ddoview.core.domain.company.QuestionRepository;
 import gdg.six.ddoview.core.domain.member.Member;
 import gdg.six.ddoview.core.domain.member.MemberRepository;
 import gdg.six.ddoview.core.domain.review.*;
+import gdg.six.ddoview.core.domain.review.dto.ReplyAdminSetRequest;
 import gdg.six.ddoview.core.domain.review.dto.ReplySetRequest;
 import gdg.six.ddoview.core.domain.review.dto.ReviewGetResponse;
 import gdg.six.ddoview.core.domain.review.dto.ReviewSetRequest;
@@ -89,7 +90,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(request.getReviewId())
                 .orElseThrow();
 
-        if(request.addChildReply()) {
+        if(request.checkChildReply()) {
             Reply parentReply = review.findReply(request.getParentReplyId());
             Reply childReply = parentReply.addChildReply(request.getContent(), member);
             review.addReply(childReply);
@@ -100,6 +101,47 @@ public class ReviewService {
                     .member(member)
                     .build());
         }
+
+        reviewRepository.save(review);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ReviewSetRequest.Response set(ReviewSetRequest request) {
+        Review review = reviewRepository.findByCompanyIdAndMemberIdAndTitle(request.getCompanyId(), request.getMemberId(), request.getReviewTitle())
+                .orElseThrow();
+
+        Company company = companyRepository.findById(request.getCompanyId())
+                .orElseThrow();
+
+        List<ReviewQuestion> list = request.getReviewQuestRequests()
+                .stream()
+                .map(x -> {
+                            Question question = questionRepository.getById(x.getQuestionId());
+                            return ReviewQuestion.builder()
+                                    .answer(x.getAnswer())
+                                    .company(company)
+                                    .review(review)
+                                    .question(question)
+                                    .build();
+                        }
+                ).collect(Collectors.toList());
+
+        review.updateReviewQuestion(list);
+        Review r = reviewRepository.save(review);
+        reviewQuestRepository.saveAll(list);
+
+        return ReviewSetRequest.Response.builder()
+                .reviewId(r.getId())
+                .build();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void setReply(ReplyAdminSetRequest request) {
+        Review review = reviewRepository.findById(request.getReviewId())
+                .orElseThrow();
+
+        Reply reply = review.findReply(request.getReplyId());
+        reply.updateContent(request.getContent());
 
         reviewRepository.save(review);
     }

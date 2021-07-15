@@ -36,8 +36,18 @@ public class CompanyService {
 
         return list.stream()
                 .map(c -> CompanyTitleResponse.builder()
-                .company(c)
-                .build())
+                        .company(c)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<CompanyTitleResponse> search(String companyName) {
+        List<Company> list = companyRepository.findByNameContains(companyName);
+
+        return list.stream()
+                .map(c -> CompanyTitleResponse.builder()
+                        .company(c)
+                        .build())
                 .collect(Collectors.toList());
     }
 

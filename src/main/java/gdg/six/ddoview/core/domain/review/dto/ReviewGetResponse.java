@@ -65,7 +65,7 @@ public class ReviewGetResponse {
                     .stream()
                     .map(r -> ChildReplyResponse.builder()
                             .reply(r).build())
-                            .sorted()
+                    .sorted((r1, r2) -> Long.compare(r1.getReplyId(), r2.getReplyId()))
                     .collect(Collectors.toList());
         }
 
@@ -97,11 +97,12 @@ public class ReviewGetResponse {
         this.title = review.getTitle();
         this.ReviewQuestions = review.getReviewQuestions()
                 .stream()
-                //.sorted(a)
                 .map(r -> ReviewQuestionResponse.builder()
                         .reviewQuestion(r)
                         .build()
-                ).collect(Collectors.toList());
+                )
+                .sorted((r1, r2) -> Long.compare(r1.getQuestionId(), r2.getQuestionId()))
+                .collect(Collectors.toList());
         this.replies = review.getReplies()
                 .stream()
                 .filter(r -> r.isParentReply())

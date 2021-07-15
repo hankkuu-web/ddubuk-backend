@@ -60,4 +60,8 @@ public class Reply extends BaseEntity {
     public boolean isParentReply() {
         return Objects.isNull(parentReply);
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
