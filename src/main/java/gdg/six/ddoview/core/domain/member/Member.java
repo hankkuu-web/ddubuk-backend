@@ -1,12 +1,16 @@
 package gdg.six.ddoview.core.domain.member;
 
 import gdg.six.ddoview.common.BaseEntity;
+import gdg.six.ddoview.core.domain.goods.GoodsReply;
+import gdg.six.ddoview.core.domain.order.Ticketing;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -19,21 +23,20 @@ public class Member extends BaseEntity {
 
     private String name;
 
-    private String profilePhotoUrl;
+    private String email;
 
-    @Enumerated(EnumType.STRING)
-    private MemberType memberType;
+    private String phoneNumber;
 
-    private long companyId = 0;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<GoodsReply> goodsReplies = new ArrayList<>();
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Ticketing> ticketing = new ArrayList<>();
 
     @Builder
-    public Member(String name, String profilePhotoUrl, MemberType memberType) {
+    public Member(String name, String email, String phoneNumber) {
         this.name = name;
-        this.profilePhotoUrl = profilePhotoUrl;
-        this.memberType = memberType;
-    }
-
-    public void updateCompanyId(long companyId) {
-        this.companyId = companyId;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 }

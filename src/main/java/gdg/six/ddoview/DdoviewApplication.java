@@ -13,7 +13,7 @@ public class DdoviewApplication {
     public static void main(String[] args) {
         SpringApplication.run(DdoviewApplication.class, args);
 
-        log.warn("!!!!!!!!!!!!!!!!!!");
+        log.warn("ok !!!!!!!!!!!!!!!!!!");
     }
 
 }

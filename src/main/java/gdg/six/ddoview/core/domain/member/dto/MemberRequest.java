@@ -1,8 +1,7 @@
 package gdg.six.ddoview.core.domain.member.dto;
 
-import gdg.six.ddoview.core.domain.company.Company;
+import gdg.six.ddoview.core.domain.goods.Goods;
 import gdg.six.ddoview.core.domain.member.Member;
-import gdg.six.ddoview.core.domain.member.MemberType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,36 +18,16 @@ public class MemberRequest {
         private String memberName;
 
         @NotBlank
-        private String profilePhotoUrl;
-
-        @NotNull
-        private MemberType memberType;
+        private String phoneNumber;
 
         @Email
         private String email;
 
-        private CompanyRequest company;
-
-        @Getter
-        public static class CompanyRequest {
-
-            private String companyName;
-
-            private String profilePhotoUrl;
-        }
-
         public Member toMember() {
             return Member.builder()
-                    .memberType(this.memberType)
+                    .email(this.email)
+                    .phoneNumber(this.phoneNumber)
                     .name(this.memberName)
-                    .profilePhotoUrl(this.profilePhotoUrl)
-                    .build();
-        }
-
-        public Company toCompany() {
-            return Company.builder()
-                    .name(this.company.companyName)
-                    .profilePhotoUrl(this.company.profilePhotoUrl)
                     .build();
         }
     }
